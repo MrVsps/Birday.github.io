@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Carta de Cumpleaños para Leydi</title>
+<style>
+    /* Estilos Generales y del Contenedor de la Carta/Sobre */
+    html, body {
+      margin: 0; padding: 0;
+      height: 100vh;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background-color: #fff0f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .card-container {
+      position: relative;
+      width: 300px;
+      height: 180px;
+      cursor: pointer;
+    }
+
+    .envelope-base {
+      width: 100%;
+      height: 100%;
+      background-color: #ffb6c1;
+      border-radius: 0 0 5px 5px;
+      position: absolute;
+      bottom: 0;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      z-index: 2;
+    }
+
+    .envelope-pattern {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: radial-gradient(#910166 10%, transparent 10%);
+      background-size: 10px 10px;
+      opacity: 0.2;
+      border-radius: 0 0 5px 5px;
+    }
+
+    .envelope-flap {
+      width: 300px;
+      height: 150px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform-origin: top center;
+      transition: transform 0.6s ease;
+      z-index: 3;
+      background: none;
+    }
+
+    .envelope-flap::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 150px solid transparent;
+      border-right: 150px solid transparent;
+      border-top: 120px solid #910166;
+    }
+
+    .heart {
+      position: absolute;
+      top: -10px;
+      right: 10px;
+      width: 30px;
+      height: 30px;
+      background-color: #ff6b8b;
+      transform: rotate(45deg);
+      z-index: 4;
+    }
+
+    .heart:before, .heart:after {
+      content: '';
+      width: 30px;
+      height: 30px;
+      background-color: #ff6b8b;
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    .heart:before {
+      top: -15px;
+      left: 0;
+    }
+
+    .heart:after {
+      top: 0;
+      left: -15px;
+    }
+
+    .stamp {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 40px;
+      height: 40px;
+      background-color: #910166;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      transform: rotate(-15deg);
+      z-index: 9;
+    }
+
+    .letter {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 650px; 
+      max-width: 90vw;
+      max-height: 85vh;
+      background: white;
+      border-radius: 8px;
+      padding: 30px;
+      box-sizing: border-box;
+      box-shadow: 0 5px 30px rgba(0,0,0,0.3);
+      opacity: 0;
+      transform: translate(-50%, 100%);
+      transition: transform 0.6s ease, opacity 0.4s ease 0.3s;
+      overflow-y: auto;
+      z-index: 20;
+      pointer-events: none; 
+    }
+
+    .letter.visible {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+      pointer-events: auto;
+    }
+
+    .letter-content {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1.5fr 2fr 1.5fr; 
+      gap: 15px;
+      text-align: center;
+      user-select: none;
+      min-height: 100%;
+    }
+
+    .photo-column {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .photo-column img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 4px solid #910166; 
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        margin: 5px 0;
+    }
+
+    .text-column {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .text-column img.main-image {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 5px solid #ff6b8b;
+        margin: 0 0 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    
+    .letter h2 {
+      color: #ff6b8b;
+      margin: 0 0 15px;
+      text-align: center;
+      font-size: 28px;
+    }
+
+    .letter p {
+      color: #555;
+      font-size: 16px;
+      line-height: 1.7;
+      text-align: center;
+      margin: 0 0 20px;
+      width: 100%;
+    }
+
+    .signature-container {
+        margin-top: 15px;
+    }
+
+    .signature-container p {
+        margin-bottom: 5px;
+    }
+
+   .letter-border {
+      position: absolute;
+      width: calc(100% - 40px);
+      height: calc(100% - 40px);
+      border: 2px dashed #ffb6c1;
+      border-radius: 5px;
+      top: 20px;
+      left: 20px;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .au{
+    position: absolute;
+    bottom: 10px;
+    right: 30px;
+  }
+
+    @media (max-width: 768px) {
+        .letter-content {
+            grid-template-columns: 1fr; 
+            gap: 20px;
+        }
+        .photo-column {
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .photo-column img {
+            width: 80px;
+            height: 80px;
+        }
+        .letter {
+            width: 95vw;
+        }
+    }
+</style>
+</head>
+<body>
+
+  <div class="card-container" id="card-container">
+    <div class="envelope-base">
+      <div class="envelope-pattern"></div>
+    </div>
+    <div class="envelope-flap"></div>
+    <div class="heart"></div>
+    <div class="stamp">🎂</div>
+  </div>
+
+  <div class="letter" id="letter">
+    <div class="letter-border"></div>
+    <div class="letter-content">
+        
+        <div class="photo-column left-column">
+            <img src="image copy 3.png" alt="Foto Leydi 1" />
+            <img src="image copy 4.png" alt="Foto Leydi 2" />
+        </div>
+
+        <div class="text-column">
+            <img src="/image.png" alt="Foto Central o Ilustración" class="main-image" />
+            
+            <h2>¡Feliz Cumpleaños, Leydi! 💖</h2>
+            
+            <p>
+                Querida hermana e hija amada,<br /><br />
+                Hoy celebramos un día muy especial: el día en que llegaste a nuestras vidas para iluminarlas con tu alegría, tu sonrisa y esa energía maravillosa que tanto nos contagia. ¡Qué regalo tan grande es tenerte!<br /><br />
+                En este día tan especial, queremos que sepas lo orgullosos que estamos de la increíble mujer en la que te has convertido. Tu determinación, tu bondad y tu forma única de ver el mundo nos inspiran cada día.<br /><br />
+                Que este nuevo año de vida esté lleno de bendiciones, sueños cumplidos, momentos inolvidables y todo el amor que tu corazón pueda albergar. Te lo mereces todo y más.<br /><br />
+                Nunca olvides cuánto te amamos y que siempre estaremos aquí para ti, celebrando cada uno de tus logros y apoyándote en cada paso del camino.
+            </p>
+            
+            <div class="signature-container">
+                <p style="margin: 10px 0 5px;">
+                    Con todo nuestro amor,<br />
+                    <span style="color: #ff6b8b; font-weight: bold; font-size: 18px;">Mamá y tu Hermano</span>
+                </p>
+            </div>
+        </div>
+
+        <div class="photo-column right-column">
+            <img src="image copy.png" alt="Foto Leydi 3" />
+            <img src="image copy 5.png" alt="Foto Leydi 4" />
+        </div>
+        
+    </div>
+  </div>
+
+<script>
+    const container = document.getElementById('card-container');
+    const letter = document.getElementById('letter');
+    
+    function showLetter() {
+      container.querySelector('.envelope-flap').style.transform = 'rotateX(180deg)';
+      letter.style.transition = 'transform 0.6s ease, opacity 0.4s ease 0.3s';
+      letter.classList.add('visible');
+    }
+    
+    function hideLetter() {
+      letter.style.transition = 'transform 0.2s ease, opacity 0.2s ease';
+      letter.style.transform = 'translate(-50%, -60%)'; 
+      letter.style.opacity = '0';
+    
+      setTimeout(() => {
+        letter.classList.remove('visible');
+        letter.style.transition = '';
+        letter.style.transform = '';
+        letter.style.opacity = '';
+        container.querySelector('.envelope-flap').style.transform = '';
+      }, 200);
+    }
+    
+    container.addEventListener('mouseenter', showLetter);
+    container.addEventListener('mouseleave', () => {
+      setTimeout(() => {
+        if (!letter.matches(':hover') && !container.matches(':hover')) {
+          hideLetter();
+        }
+      }, 10);
+    });
+    
+    letter.addEventListener('mouseenter', showLetter);
+    letter.addEventListener('mouseleave', () => {
+      setTimeout(() => {
+        if (!letter.matches(':hover') && !container.matches(':hover')) {
+          hideLetter();
+        }
+      }, 10);
+    });
+</script>
+<audio id="countdown-audio" class="au" controls autoplay loop src="/ytmp3free.cc_morat-antes-de-los-veinte-visualiser-youtubemp3free.org.mp3" preload="auto"></audio>
+</body>
+</html>
